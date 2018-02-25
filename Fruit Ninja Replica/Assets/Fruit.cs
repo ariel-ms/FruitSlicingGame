@@ -12,7 +12,11 @@ public class Fruit : MonoBehaviour {
         if (col.tag == "Blade")
         {
             Debug.Log("HIT");
-            Instantiate(fruitSlicedPrefab);
+            Vector3 direction = (col.transform.position - transform.position).normalized;
+
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            Instantiate(fruitSlicedPrefab, transform.position, rotation);
             Destroy(gameObject);
         }
     }
