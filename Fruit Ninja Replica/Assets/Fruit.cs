@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public GameObject fruitSlicedPrefab;
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Blade")
+        {
+            Debug.Log("HIT");
+            Instantiate(fruitSlicedPrefab);
+            Destroy(gameObject);
+        }
+    }
 }
