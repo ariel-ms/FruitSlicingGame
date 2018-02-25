@@ -5,10 +5,13 @@ using UnityEngine;
 public class Blade : MonoBehaviour {
 
     public GameObject bladeTrailPrefab;
+    public float minCuttingVelocity = 0.001f;
 
     public bool isCutting = false;
 
     GameObject currentBladeTrail;
+
+    Vector2 previousPosition;
 
     Rigidbody2D rb;
     Camera cam;
@@ -39,14 +42,28 @@ public class Blade : MonoBehaviour {
 
     void UpdateCut()
     {
-        rb.position = cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 newPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        rb.position = newPosition;
+
+        float velocity = (newPosition - previousPosition).magnitude  * Time.deltaTime;
+        if (velocity > minCuttingVelocity)
+        {
+            circleCollider.enabled = true;
+        }
+        else
+        {
+            circleCollider.enabled = false;
+        }
+
+        previousPosition = newPosition;
     }
 
     void StartCutting ()
     {
         isCutting = true;
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
-        circleCollider.enabled = true;
+        previousPosition = cam.ScreenToWorldPoint(Input.mousePosition);
+        circleCollider.enabled = false;
     }
 
     void StopCutting ()
