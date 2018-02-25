@@ -12,11 +12,13 @@ public class Blade : MonoBehaviour {
 
     Rigidbody2D rb;
     Camera cam;
+    CircleCollider2D circleCollider;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class Blade : MonoBehaviour {
     {
         isCutting = true;
         currentBladeTrail = Instantiate(bladeTrailPrefab, transform);
+        circleCollider.enabled = true;
     }
 
     void StopCutting ()
@@ -51,5 +54,6 @@ public class Blade : MonoBehaviour {
         isCutting = false;
         currentBladeTrail.transform.SetParent(null);
         Destroy(currentBladeTrail, 2f);
+        circleCollider.enabled = false;
     }
 }
